@@ -16,7 +16,7 @@ public class ClienteService {
 
     public Cliente findById(Integer id) {
         Optional<Cliente> obj = clienteRepository.findById(id);
-        obj.orElseThrow(() -> new ResourceNotFoundException("Reccurso não Encontrado: Id " + id));
+        obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não Encontrado: Id: " + id));
         return obj.get();
     }
 }
