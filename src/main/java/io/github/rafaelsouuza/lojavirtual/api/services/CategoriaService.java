@@ -2,6 +2,7 @@ package io.github.rafaelsouuza.lojavirtual.api.services;
 
 import io.github.rafaelsouuza.lojavirtual.api.entities.Categoria;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.CategoriaRepository;
+import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,6 @@ public class CategoriaService {
 
     public Categoria findById(Integer id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
     }
 }
