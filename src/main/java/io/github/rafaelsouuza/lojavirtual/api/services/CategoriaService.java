@@ -18,4 +18,8 @@ public class CategoriaService {
         Optional<Categoria> obj = categoriaRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
     }
+
+    public Categoria insert(Categoria categoria) {
+        return categoriaRepository.save(categoria);
+    }
 }
