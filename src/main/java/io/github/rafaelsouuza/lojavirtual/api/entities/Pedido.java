@@ -1,5 +1,7 @@
 package io.github.rafaelsouuza.lojavirtual.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime instante;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")

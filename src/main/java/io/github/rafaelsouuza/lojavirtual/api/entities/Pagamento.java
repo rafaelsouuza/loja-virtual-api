@@ -1,5 +1,6 @@
 package io.github.rafaelsouuza.lojavirtual.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.rafaelsouuza.lojavirtual.api.entities.enums.EstadoPagamento;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId

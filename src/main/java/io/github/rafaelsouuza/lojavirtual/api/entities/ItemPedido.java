@@ -1,5 +1,6 @@
 package io.github.rafaelsouuza.lojavirtual.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.rafaelsouuza.lojavirtual.api.entities.pk.ItemPedidoPk;
 
 import javax.persistence.EmbeddedId;
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class ItemPedido implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private ItemPedidoPk id = new ItemPedidoPk();
 
@@ -29,9 +31,11 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
+    @JsonIgnore
     public Pedido getPedido() {
         return id.getPedido();
     }
+
 
     public Produto getProduto() {
         return id.getProduto();

@@ -1,5 +1,6 @@
 package io.github.rafaelsouuza.lojavirtual.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.rafaelsouuza.lojavirtual.api.entities.enums.EstadoPagamento;
 
 import javax.persistence.Entity;
@@ -9,7 +10,10 @@ import java.time.LocalDate;
 public class PagamentoComBoleto extends Pagamento {
     private static final long serialVersionUID = 1L;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataVencimento;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataPagemento;
 
     public PagamentoComBoleto() {
