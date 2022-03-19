@@ -2,8 +2,11 @@ package io.github.rafaelsouuza.lojavirtual.api.services;
 
 import io.github.rafaelsouuza.lojavirtual.api.entities.Categoria;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.CategoriaRepository;
+import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.DataIntegrityException;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,5 +30,17 @@ public class CategoriaService {
         Categoria obj = findById(id);
         obj.setNome(categoria.getNome());
         return obj;
+    }
+
+    public void deleteById(Integer id) {
+        try {
+            categoriaRepository.deleteById(id);
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado: Id:" + id);
+
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Violação de integridade do banco de dados");
+        }
     }
 }
