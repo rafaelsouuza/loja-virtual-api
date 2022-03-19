@@ -12,9 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoriaService {
@@ -27,15 +25,24 @@ public class CategoriaService {
         return obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
     }
 
-    public Categoria insert(Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public CategoriaDTO insert(CategoriaDTO dto) {
+        Categoria obj = new Categoria();
+        copyDtoToEntity(dto, obj);
+        categoriaRepository.save(obj);
+        return new CategoriaDTO(obj);
     }
 
-    public Categoria update(Categoria categoria, Integer id) {
-        Optional<Categoria> obj = categoriaRepository.findById(id);
-        obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
-        obj.get().setNome(categoria.getNome());
-        return obj.get();
+    public CategoriaDTO update(CategoriaDTO dto, Integer id) {
+        try {
+            Categoria obj = categoriaRepository.findById(id).get();
+            copyDtoToEntity(dto, obj);
+            categoriaRepository.save(obj);
+
+            return new CategoriaDTO(obj);
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado: Id:" + id);
+        }
     }
 
     public void deleteById(Integer id) {
@@ -53,5 +60,9 @@ public class CategoriaService {
     public Page<CategoriaDTO> findAll(Pageable pageable) {
         Page<Categoria> list = categoriaRepository.findAll(pageable);
         return list.map(x -> new CategoriaDTO(x));
+    }
+
+    private static void copyDtoToEntity(CategoriaDTO dto, Categoria entity) {
+        entity.setNome(dto.getNome());
     }
 }
