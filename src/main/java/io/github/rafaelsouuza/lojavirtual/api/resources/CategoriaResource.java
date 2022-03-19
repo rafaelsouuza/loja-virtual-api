@@ -4,6 +4,8 @@ import io.github.rafaelsouuza.lojavirtual.api.dtos.CategoriaDTO;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Categoria;
 import io.github.rafaelsouuza.lojavirtual.api.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -48,8 +50,8 @@ public class CategoriaResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> findAll() {
-        List<CategoriaDTO> list = categoriaService.findAll();
+    public ResponseEntity<Page<CategoriaDTO>> findAll(Pageable pageable) {
+        Page<CategoriaDTO> list = categoriaService.findAll(pageable);
         return ResponseEntity.ok().body(list);
     }
 }

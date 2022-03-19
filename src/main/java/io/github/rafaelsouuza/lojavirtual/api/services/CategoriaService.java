@@ -8,6 +8,8 @@ import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFou
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,8 +50,8 @@ public class CategoriaService {
         }
     }
 
-    public List<CategoriaDTO> findAll() {
-        List<Categoria> list = categoriaRepository.findAll();
-        return list.stream().map(x -> new CategoriaDTO(x)).collect(Collectors.toList());
+    public Page<CategoriaDTO> findAll(Pageable pageable) {
+        Page<Categoria> list = categoriaRepository.findAll(pageable);
+        return list.map(x -> new CategoriaDTO(x));
     }
 }
