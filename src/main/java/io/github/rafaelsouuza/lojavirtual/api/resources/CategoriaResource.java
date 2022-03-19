@@ -32,4 +32,23 @@ public class CategoriaResource {
                 .toUri();
         return ResponseEntity.created(uri).body(obj);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Categoria> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
+        Categoria obj = categoriaService.update(categoria, id);
+        return ResponseEntity.ok().body(obj);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,4 +22,10 @@ public class CategoriaService {
     public Categoria insert(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
+
+    public Categoria update(Categoria categoria, Integer id) {
+        Categoria obj = findById(id);
+        obj.setNome(categoria.getNome());
+        return obj;
+    }
 }
