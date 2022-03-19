@@ -1,5 +1,6 @@
 package io.github.rafaelsouuza.lojavirtual.api.services;
 
+import io.github.rafaelsouuza.lojavirtual.api.dtos.CategoriaDTO;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Categoria;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.CategoriaRepository;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.DataIntegrityException;
@@ -9,7 +10,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoriaService {
@@ -27,9 +30,10 @@ public class CategoriaService {
     }
 
     public Categoria update(Categoria categoria, Integer id) {
-        Categoria obj = findById(id);
-        obj.setNome(categoria.getNome());
-        return obj;
+        Optional<Categoria> obj = categoriaRepository.findById(id);
+        obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
+        obj.get().setNome(categoria.getNome());
+        return obj.get();
     }
 
     public void deleteById(Integer id) {
@@ -42,5 +46,10 @@ public class CategoriaService {
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Violação de integridade do banco de dados");
         }
+    }
+
+    public List<CategoriaDTO> findAll() {
+        List<Categoria> list = categoriaRepository.findAll();
+        return list.stream().map(x -> new CategoriaDTO(x)).collect(Collectors.toList());
     }
 }
