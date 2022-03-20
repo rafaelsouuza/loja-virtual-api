@@ -20,9 +20,10 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public Categoria findById(Integer id) {
+    public CategoriaDTO findById(Integer id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
-        return obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
+        obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id:" + id));
+        return new CategoriaDTO(obj.get());
     }
 
     public CategoriaDTO insert(CategoriaDTO dto) {

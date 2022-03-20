@@ -21,9 +21,9 @@ public class CategoriaResource {
     private CategoriaService categoriaService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
-        Categoria obj = categoriaService.findById(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<CategoriaDTO> findById(@PathVariable Integer id) {
+        CategoriaDTO dto = categoriaService.findById(id);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
