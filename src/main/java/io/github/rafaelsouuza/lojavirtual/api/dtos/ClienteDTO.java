@@ -1,12 +1,14 @@
 package io.github.rafaelsouuza.lojavirtual.api.dtos;
 
 import io.github.rafaelsouuza.lojavirtual.api.entities.Cliente;
+import io.github.rafaelsouuza.lojavirtual.api.services.validation.ClienteUpdate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
