@@ -1,23 +1,47 @@
 package io.github.rafaelsouuza.lojavirtual.api.dtos;
 
+import io.github.rafaelsouuza.lojavirtual.api.services.validation.ClienteInsert;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NotBlank(message = "O campo NOME é obrigatório")
+    @Size(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String nome;
+
+    @NotBlank(message = "O campo E-mail é obrigatório")
+    @Email(message = "E-mail inválido")
     private String email;
+
+    @NotBlank(message = "O campo CPF/CNPJ é obrigatório")
     private String cpfOuCnpj;
+
     private Integer tipo;
 
+    @NotBlank(message = "O campo LOGRADOURO é obrigatório")
     private String logradouro;
+
+    @NotBlank(message = "O campo NUMERO é obrigatório")
     private String numero;
+
     private String complemento;
+
     private String bairro;
+
+    @NotBlank(message = "O campo CEP é obrigatório")
     private String cep;
 
+    @NotBlank(message = "O campo TELEFONE é obrigatório")
     private String telefone1;
+
     private String telefone2;
+
     private String telefone3;
 
     private Integer cidadeId;
