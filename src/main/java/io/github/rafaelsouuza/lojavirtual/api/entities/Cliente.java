@@ -19,7 +19,7 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipo;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // Ao excluir um cliente o endereço tbm será exluído junto
     private List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection

@@ -1,6 +1,7 @@
 package io.github.rafaelsouuza.lojavirtual.api.resources;
 
 import io.github.rafaelsouuza.lojavirtual.api.dtos.ClienteDTO;
+import io.github.rafaelsouuza.lojavirtual.api.dtos.ClienteNewDTO;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Cliente;
 import io.github.rafaelsouuza.lojavirtual.api.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,13 @@ public class ClienteResource {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> insert(@Valid @RequestBody ClienteDTO dto) {
-        ClienteDTO obj = clienteService.insert(dto);
+    public ResponseEntity<Cliente> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+        Cliente obj = clienteService.fromDTO(objDto);
+        obj = clienteService.insert(obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("{/id}")
-                .buildAndExpand(dto.getId())
+                .path("/{id}")
+                .buildAndExpand(obj.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(obj);
     }
