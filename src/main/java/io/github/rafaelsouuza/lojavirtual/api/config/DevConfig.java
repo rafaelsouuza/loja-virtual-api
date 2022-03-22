@@ -1,6 +1,8 @@
 package io.github.rafaelsouuza.lojavirtual.api.config;
 
 import io.github.rafaelsouuza.lojavirtual.api.services.DBService;
+import io.github.rafaelsouuza.lojavirtual.api.services.EmailService;
+import io.github.rafaelsouuza.lojavirtual.api.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,11 @@ public class DevConfig {
             this.dbService.instanciaDB();
         }
         return false;
+    }
+
+    @Bean
+    public EmailService emailService() {
+        return new SmtpEmailService();
     }
 
 }
