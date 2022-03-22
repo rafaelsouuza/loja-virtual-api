@@ -1,6 +1,5 @@
 package io.github.rafaelsouuza.lojavirtual.api.resources;
 
-import io.github.rafaelsouuza.lojavirtual.api.dtos.CategoriaDTO;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Pedido;
 import io.github.rafaelsouuza.lojavirtual.api.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;

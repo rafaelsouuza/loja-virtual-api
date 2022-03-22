@@ -10,6 +10,7 @@ import io.github.rafaelsouuza.lojavirtual.api.repositories.PedidoRepository;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -37,6 +38,7 @@ public class PedidoService {
         return obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado: Id: " + id));
     }
 
+    @Transactional
     public Pedido insert(Pedido obj) {
         obj.setId(null);
         obj.setInstante(LocalDateTime.now());
