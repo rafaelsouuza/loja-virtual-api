@@ -24,6 +24,9 @@ public class ClienteNewDTO implements Serializable {
 
     private Integer tipo;
 
+    @NotBlank(message = "O campo SENHA é obrigatório")
+    private String senha;
+
     @NotBlank(message = "O campo LOGRADOURO é obrigatório")
     private String logradouro;
 
@@ -79,6 +82,14 @@ public class ClienteNewDTO implements Serializable {
 
     public void setTipo(Integer tipo) {
         this.tipo = tipo;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getLogradouro() {

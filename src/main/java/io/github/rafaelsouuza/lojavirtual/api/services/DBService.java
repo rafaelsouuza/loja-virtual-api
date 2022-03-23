@@ -5,6 +5,7 @@ import io.github.rafaelsouuza.lojavirtual.api.entities.enums.EstadoPagamento;
 import io.github.rafaelsouuza.lojavirtual.api.entities.enums.TipoCliente;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Service
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -99,7 +103,8 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        Cliente cli1 = new Cliente(null, "Maria Silva", "rafusgameplay@gmail.com", "3865385534", TipoCliente.PESSOAFISICA);
+        Cliente cli1 = new Cliente(null, "Maria Silva", "rafusgameplay@gmail.com", "3865385534",
+                TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
 
         cli1.getTelefones().addAll(Arrays.asList("34523535", "35353535"));
 
