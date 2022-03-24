@@ -5,9 +5,12 @@ import io.github.rafaelsouuza.lojavirtual.api.dtos.ClienteNewDTO;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Cidade;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Cliente;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Endereco;
+import io.github.rafaelsouuza.lojavirtual.api.entities.enums.Perfil;
 import io.github.rafaelsouuza.lojavirtual.api.entities.enums.TipoCliente;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.ClienteRepository;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.EnderecoRepository;
+import io.github.rafaelsouuza.lojavirtual.api.security.UserSS;
+import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.AuthorizationException;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.DataIntegrityException;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,12 @@ public class ClienteService {
 //    }
 
     public Cliente findById(Integer id) {
+
+        UserSS user = UserService.authenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado");
+        }
+
         Optional<Cliente> obj = clienteRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException("Recurso não Encontrado: Id: " + id));
     }

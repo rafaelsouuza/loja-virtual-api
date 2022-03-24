@@ -1,5 +1,6 @@
 package io.github.rafaelsouuza.lojavirtual.api.resources.exceptions;
 
+import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.AuthorizationException;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.DataIntegrityException;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,20 @@ public class ResourceExceptionHandler {
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.setErrors(f.getField(), f.getDefaultMessage());
         }
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> resourceNotFoundException(AuthorizationException e,
+                                                                   HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Acesso Negado");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }
