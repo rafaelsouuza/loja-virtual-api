@@ -1,14 +1,18 @@
 package io.github.rafaelsouuza.lojavirtual.api.services;
 
-import io.github.rafaelsouuza.lojavirtual.api.entities.ItemPedido;
-import io.github.rafaelsouuza.lojavirtual.api.entities.PagamentoComBoleto;
-import io.github.rafaelsouuza.lojavirtual.api.entities.Pedido;
+import io.github.rafaelsouuza.lojavirtual.api.dtos.CategoriaDTO;
+import io.github.rafaelsouuza.lojavirtual.api.entities.*;
 import io.github.rafaelsouuza.lojavirtual.api.entities.enums.EstadoPagamento;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.ItemPedidoRepository;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.PagamentoRepository;
 import io.github.rafaelsouuza.lojavirtual.api.repositories.PedidoRepository;
+import io.github.rafaelsouuza.lojavirtual.api.security.UserSS;
+import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.AuthorizationException;
 import io.github.rafaelsouuza.lojavirtual.api.services.exceptions.ResourceNotFoundException;
+import org.aspectj.weaver.patterns.IfPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,5 +74,14 @@ public class PedidoService {
         itemPedidoRepository.saveAll(obj.getItens());
         emailService.sendOrderConfirmationHtmlEmail(obj);
         return obj;
+    }
+
+    public Page<Pedido> findAll(Pageable pageable) {
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Acesso negado");
+        }
+        Cliente cliente = clienteService.findById(user.getId());
+        return pedidoRepository.findByCliente(cliente, pageable);
     }
 }

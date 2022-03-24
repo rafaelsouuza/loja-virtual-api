@@ -1,8 +1,11 @@
 package io.github.rafaelsouuza.lojavirtual.api.resources;
 
+import io.github.rafaelsouuza.lojavirtual.api.dtos.CategoriaDTO;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Pedido;
 import io.github.rafaelsouuza.lojavirtual.api.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,5 +35,11 @@ public class PedidoResource {
                 .buildAndExpand(obj.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(obj);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Pedido>> findAll(Pageable pageable) {
+        Page<Pedido> list = pedidoService.findAll(pageable);
+        return ResponseEntity.ok().body(list);
     }
 }
