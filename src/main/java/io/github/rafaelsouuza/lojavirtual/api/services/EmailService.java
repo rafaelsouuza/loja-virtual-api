@@ -1,5 +1,6 @@
 package io.github.rafaelsouuza.lojavirtual.api.services;
 
+import io.github.rafaelsouuza.lojavirtual.api.entities.Cliente;
 import io.github.rafaelsouuza.lojavirtual.api.entities.Pedido;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -14,4 +15,6 @@ public interface EmailService {
     void sendOrderConfirmationHtmlEmail(Pedido obj);
 
     void sendHtmlEmail(MimeMessage msg);
+
+    void sendNewPasswordEmail(Cliente cliente, String newPass);
 }
